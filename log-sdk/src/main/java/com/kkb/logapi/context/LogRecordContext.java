@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Stack;
 
 /**
+ * 日志上下文信息
+ * 对于不同方法的日志信息将他打包成map放入栈中
  * @author wangbaowei
  */
 public class LogRecordContext {

@@ -5,6 +5,7 @@ import com.kkb.logapi.beans.LogRecord;
 import java.util.List;
 
 /**
+ * 日志相关接口
  * @author wangbaowei
  */
 public interface ILogRecordService {

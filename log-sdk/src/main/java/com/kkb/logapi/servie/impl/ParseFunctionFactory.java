@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 自定义函数相关的接口
  * @author wangbaowei
  */
 public class ParseFunctionFactory {

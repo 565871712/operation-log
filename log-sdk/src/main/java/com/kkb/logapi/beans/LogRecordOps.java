@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
+ *
+ * 日志解析实体
  * @author wangbaowei
  */
 

@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 
 /**
+ * pointCut 切点
  * @author wangbaowei
  */
 public class LogRecordPointcut extends StaticMethodMatcherPointcut implements Serializable {
@@ -16,6 +17,7 @@ public class LogRecordPointcut extends StaticMethodMatcherPointcut implements Se
 
     @Override
     public boolean matches(Method method, Class<?> targetClass) {
+        //判断是否有日志标签
         return !CollectionUtils.isEmpty(logRecordOperationSource.computeLogRecordOperations(method, targetClass));
     }
 

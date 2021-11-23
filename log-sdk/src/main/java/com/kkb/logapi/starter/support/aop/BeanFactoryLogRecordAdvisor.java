@@ -5,6 +5,7 @@ import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractBeanFactoryPointcutAdvisor;
 
 /**
+ * 切面 + 切点
  * @author wangbaowei
  */
 public class BeanFactoryLogRecordAdvisor extends AbstractBeanFactoryPointcutAdvisor {
