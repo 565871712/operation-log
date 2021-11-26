@@ -46,30 +46,38 @@ public class LogRecordInterceptor extends LogRecordValueParser implements Initia
     }
 
     private Object execute(MethodInvocation invoker, Object target, Method method, Object[] args) throws Throwable {
+       // 获取目标类
         Class<?> targetClass = getTargetClass(target);
         Object ret = null;
+//        构造异常result
         MethodExecuteResult methodExecuteResult = new MethodExecuteResult(true, null, "");
+//        在方法调用前初始化日志栈
         LogRecordContext.putEmptySpan();
+
         Collection<LogRecordOps> operations = new ArrayList<>();
         Map<String, String> functionNameAndReturnMap = new HashMap<>();
         try {
+            //获取到日志标签上的数据 并将数据分装到Collection<LogRecordOps>
             operations = logRecordOperationSource.computeLogRecordOperations(method, targetClass);
+            //提取Collection<LogRecordOps>中需要解析的el表达式
             List<String> spElTemplates = getBeforeExecuteFunctionTemplate(operations);
+            //解析方法前el参数
             functionNameAndReturnMap = processBeforeExecuteFunctionTemplate(spElTemplates, targetClass, method, args);
         } catch (Exception e) {
             log.error("log record parse before function exception", e);
         }
 
+        //处理正常业务逻辑
         try {
             ret = invoker.proceed();
         } catch (Exception e) {
             methodExecuteResult = new MethodExecuteResult(false, e, e.getMessage());
         }
 
+        // 纪录日志
         try {
             if (!CollectionUtils.isEmpty(operations)) {
-                recordExecute(ret, method, args, operations, targetClass,
-                        methodExecuteResult.isSuccess(), methodExecuteResult.getErrorMsg(), functionNameAndReturnMap);
+                recordExecute(ret, method, args, operations, targetClass, methodExecuteResult.isSuccess(), methodExecuteResult.getErrorMsg(), functionNameAndReturnMap);
             }
         } catch (Exception t) {
             //记录日志错误不要影响业务
